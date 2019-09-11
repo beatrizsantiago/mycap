@@ -33,6 +33,8 @@ target 'mycap' do
 
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'mycapTests' do
     inherit! :search_paths
     # Pods for testing

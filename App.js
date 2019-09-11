@@ -6,18 +6,30 @@ import Login from './src/screens/Login'
 import SearchCap from './src/screens/SearchCap'
 import Feedback from './src/screens/Feedback'
 
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+
 const LoginStack = createStackNavigator({ Login })
 const SearchCapStack = createStackNavigator({ SearchCap })
 const FeedbackStack = createStackNavigator({ Feedback })
 
 const TabBottom = createMaterialBottomTabNavigator(
 	{
-		SearchCap: { screen: SearchCapStack },
-		Feedback: { screen: FeedbackStack },
+		SearchCap: { 
+			screen: SearchCapStack,
+			navigationOptions: ({ navigation }) => ({
+				tabBarIcon: <Icon name="map-search-outline" size={25} color="#fff" />
+			})
+		},
+		Feedback: { 
+			screen: FeedbackStack,
+			navigationOptions: ({ navigation }) => ({
+				tabBarIcon: <Icon name="ballot-recount-outline" size={25} color="#fff" />
+			})
+		},
 	}, {
 		initialRouteName: 'SearchCap',
-		activeColor: '#f0edf6',
-		inactiveColor: '#3e2465',
+		activeColor: '#fff',
+		inactiveColor: '#754822',
 		shifting: true,
 		barStyle: { backgroundColor: '#f68121' },
 	}

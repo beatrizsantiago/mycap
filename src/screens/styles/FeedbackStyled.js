@@ -59,9 +59,21 @@ export const ViewPicture = styled.View`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 80%;
-    height: 180px;
+    height: 220px;
+    margin: 5px 12px;
     padding: 4px;
     border: solid 1px #9c9c9c;
     border-radius: 4px;
+`
+
+export const IconCamera = styled.TouchableOpacity`
+    position: absolute;
+    top: 8px;
+    right: 12px;
+`
+
+export const IconClose = styled.TouchableOpacity`
+    position: absolute;
+    top: 8px;
+    left: 12px;
 `

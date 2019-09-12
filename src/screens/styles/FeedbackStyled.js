@@ -42,3 +42,26 @@ export const TextArea = styled.TextInput`
     border-radius: 4px;
     background-color: #fff;
 `
+
+export const TakePicture = styled.TouchableOpacity`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 12px;
+    padding: 5px;
+    border: solid 1px #9c9c9c;
+    border-radius: 4px;
+`
+
+export const ViewPicture = styled.View`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 180px;
+    padding: 4px;
+    border: solid 1px #9c9c9c;
+    border-radius: 4px;
+`

@@ -77,3 +77,13 @@ export const IconClose = styled.TouchableOpacity`
     top: 8px;
     left: 12px;
 `
+
+export const Button = styled.TouchableOpacity`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    margin: 10px 12px;
+    border-radius: 5px;
+    background-color: #f68121;
+`

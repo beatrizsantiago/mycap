@@ -4,12 +4,14 @@ import ImagePicker from 'react-native-image-picker'
 import ImageView from 'react-native-image-view'
 import Icon from 'react-native-vector-icons/Ionicons'
 
+import FeedbackService from '../services/FeedbackService'
+
 import { Container } from './styles/MainStyled'
-import { Label, InputText, MediumInput, ColMediumInput, LineInput, TextArea, TakePicture, ViewPicture, IconCamera, IconClose } from './styles/FeedbackStyled'
+import { Label, InputText, MediumInput, ColMediumInput, LineInput, TextArea, TakePicture, ViewPicture, IconCamera, IconClose, Button } from './styles/FeedbackStyled'
 
 
 export default function Feedback() {
-	const [idCap, setIdCap] = useState('')
+	const [idCap, setIdCap] = useState('31AMRepLGqrksGrTlUwY')
 	const [quantityPeople, setQuantityPeople] = useState('')
 	const [quantityConversion, setQuantityConversion] = useState('')
 	const [hasMiracles, setHasMiracles] = useState(false)
@@ -17,6 +19,14 @@ export default function Feedback() {
 	const [descriptionMiracles, setDescriptionMiracles] = useState('')
 	const [isImageViewVisible, setIsImageViewVisible] = useState(false)
 	const [imageSource, setImageSource] = useState(null)
+
+	const sendFeedback = () => {
+		
+	}
+
+	const validateFeedback = () => {
+		// FeedbackService.UploadImageFeedback(imageSource.path, imageSource.name, idCap)
+	}
 
 	const showImage = () => imageSource ?
 		<ImageView
@@ -40,13 +50,15 @@ export default function Feedback() {
 		}
 
 		ImagePicker.showImagePicker(options, response => {
+			console.warn(response);
+			
 			if (response.didCancel) {
 				return null
 			} else if (response.error) {
 				console.warn('ImagePicker Error: ', response.error);
 			} else {
 				let source = { uri: `data:${response.type};base64,${response.data}` }
-				setImageSource({ width: response.width, height: response.height, image: source })
+				setImageSource({ width: response.width, height: response.height, path: response.path, name: response.fileName, image: source })
 			}
 		});
 	}
@@ -106,6 +118,10 @@ export default function Feedback() {
 						<Icon name="ios-camera" size={35} color="#5c5c5c" />
 					</TakePicture>
 				}
+
+				<Button onPress={() => validateFeedback()}>
+					<Text style={{ color: '#fff', fontSize: 18 }}>Enviar Feedback</Text>
+				</Button>
 
 				{showImage()}
 

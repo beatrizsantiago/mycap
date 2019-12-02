@@ -68,7 +68,7 @@ export const ViewPicture = styled.View`
 
 export const IconCamera = styled.TouchableOpacity`
     position: absolute;
-    top: 8px;
+    top: 2px;
     right: 12px;
 `
 

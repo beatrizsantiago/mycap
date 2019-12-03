@@ -4,11 +4,14 @@ import { createMaterialBottomTabNavigator } from "react-navigation-material-bott
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
+import Splash from './src/screens/Splash'
 import Login from './src/screens/Login'
 import SearchCap from './src/screens/SearchCap'
 import Feedback from './src/screens/Feedback'
 
 import Header from './src/components/Header'
+
+const SplahStack = createStackNavigator({ Splash })
 
 const LoginStack = createStackNavigator({ Login })
 
@@ -56,11 +59,12 @@ const TabBottom = createMaterialBottomTabNavigator(
 export default createAppContainer(
 	createSwitchNavigator(
 		{
+			Splash: SplahStack,
 			Login: LoginStack,
 			App: TabBottom
 		},
 		{
-			initialRouteName: 'App'
+			initialRouteName: 'Splash'
 		}
 	)
 )

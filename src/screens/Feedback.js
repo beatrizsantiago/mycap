@@ -6,8 +6,8 @@ import Icon from 'react-native-vector-icons/Ionicons'
 
 import FeedbackService from '../services/FeedbackService'
 
-import { Container } from './styles/MainStyled'
-import { Label, InputText, MediumInput, ColMediumInput, LineInput, TextArea, TakePicture, ViewPicture, IconCamera, IconClose, Button, ViewModal } from './styles/FeedbackStyled'
+import { Container, ViewModal } from './styles/MainStyled'
+import { Label, InputText, MediumInput, ColMediumInput, LineInput, TextArea, TakePicture, ViewPicture, IconCamera, IconClose, Button } from './styles/FeedbackStyled'
 
 
 export default function Feedback() {
@@ -43,7 +43,7 @@ export default function Feedback() {
 		if (imageSource) {
 			let urlImage = await FeedbackService.UploadImageFeedback(imageSource.path, imageSource.name, idFeedback)
 			FeedbackService.UpdateFeedback(idFeedback, urlImage)
-				.then(() => {initialState(); return showMessage('Feedback enviado com sucesso.')})
+				.then(() => { initialState(); return showMessage('Feedback enviado com sucesso.') })
 		} else {
 			initialState()
 			return showMessage('Feedback enviado com sucesso.')

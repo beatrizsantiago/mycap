@@ -3,6 +3,7 @@ import styled from 'styled-components/native'
 export const Bar = styled.View`
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     flex-direction: row;
     height: 60px;
     border-bottom-color: #ebebeb;
@@ -11,6 +12,8 @@ export const Bar = styled.View`
 `
 
 export const TitleCenter = styled.View`
+    position: absolute;
+    width: 100%;
     flex: 1;
     justify-content: center;
     align-items: center;

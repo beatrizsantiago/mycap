@@ -17,12 +17,16 @@ export default function LoginScreen(props) {
 	const [loading, setLoading] = useState(false)
 
 	useEffect(() => {
-		if (Platform.OS = "android") {
-			PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
-			PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
-			PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
-		}
+		permissions()
 	}, [])
+
+	const permissions = async () => {
+		if (Platform.OS = "android") {
+			await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA)
+			await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE)
+			await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
+		}
+	}
 
 	const errorLogin = () => Alert.alert('Atenção!', 'E-mail e/ou senha inválidos', [{ text: 'OK' }])
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, ScrollView, Picker, TouchableOpacity, Image } from 'react-native'
+import { View, Text, ScrollView, Picker, TouchableOpacity, Image, Alert, Modal, ActivityIndicator } from 'react-native'
 import ImagePicker from 'react-native-image-picker'
 import ImageView from 'react-native-image-view'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import FeedbackService from '../services/FeedbackService'
 
 import { Container } from './styles/MainStyled'
-import { Label, InputText, MediumInput, ColMediumInput, LineInput, TextArea, TakePicture, ViewPicture, IconCamera, IconClose, Button } from './styles/FeedbackStyled'
+import { Label, InputText, MediumInput, ColMediumInput, LineInput, TextArea, TakePicture, ViewPicture, IconCamera, IconClose, Button, ViewModal } from './styles/FeedbackStyled'
 
 
 export default function Feedback() {
@@ -19,13 +19,50 @@ export default function Feedback() {
 	const [descriptionMiracles, setDescriptionMiracles] = useState('')
 	const [isImageViewVisible, setIsImageViewVisible] = useState(false)
 	const [imageSource, setImageSource] = useState(null)
+	const [loading, setLoading] = useState(false)
 
-	const sendFeedback = () => {
-		
+	const initialState = () => {
+		setQuantityPeople('')
+		setQuantityConversion('')
+		setHasMiracles(false)
+		setQuantityMiracles('')
+		setDescriptionMiracles('')
+		setIsImageViewVisible(false)
+		setImageSource(null)
+		setLoading(false)
+	}
+
+	const showMessage = message => {
+		Alert.alert('Atenção!', message, [{ text: 'Ok' }]);
+	}
+
+	const sendFeedback = async () => {
+		setLoading(true)
+		let idFeedback = await FeedbackService.RegisterFeedback(idCap, parseInt(quantityPeople), parseInt(quantityConversion), hasMiracles == true ? parseInt(quantityMiracles) : 0, descriptionMiracles)
+
+		if (imageSource) {
+			let urlImage = await FeedbackService.UploadImageFeedback(imageSource.path, imageSource.name, idFeedback)
+			FeedbackService.UpdateFeedback(idFeedback, urlImage)
+				.then(() => {initialState(); return showMessage('Feedback enviado com sucesso.')})
+		} else {
+			initialState()
+			return showMessage('Feedback enviado com sucesso.')
+		}
 	}
 
 	const validateFeedback = () => {
-		// FeedbackService.UploadImageFeedback(imageSource.path, imageSource.name, idCap)
+		if (quantityPeople == '') {
+			return showMessage('Por favor, informe a quantidade de pessoas presentes.')
+
+		} else if (quantityConversion == '') {
+			return showMessage('Por favor, informe a quantidade de conversões.')
+
+		} else if (hasMiracles == true && quantityMiracles == '') {
+			return showMessage('Por favor, informe a quantidade de milagres.')
+
+		} else {
+			sendFeedback()
+		}
 	}
 
 	const showImage = () => imageSource ?
@@ -51,7 +88,7 @@ export default function Feedback() {
 
 		ImagePicker.showImagePicker(options, response => {
 			console.warn(response);
-			
+
 			if (response.didCancel) {
 				return null
 			} else if (response.error) {
@@ -94,7 +131,7 @@ export default function Feedback() {
 						</LineInput>
 
 						<Label>Descrição</Label>
-						<TextArea numberOfLines={10} multiline={true} value={descriptionMiracles} onChangeText={value => setDescriptionMiracles(value)} />
+						<TextArea multiline={true} value={descriptionMiracles} onChangeText={value => setDescriptionMiracles(value)} />
 					</View>
 					: null
 				}
@@ -124,6 +161,13 @@ export default function Feedback() {
 				</Button>
 
 				{showImage()}
+
+				<Modal animationType="fade" transparent={true} visible={loading}>
+					<ViewModal>
+						<ActivityIndicator size="large" color="#fff" />
+						<Text style={{ color: '#fff', fontSize: 20, marginTop: 5 }}>Enviando Feedback...</Text>
+					</ViewModal>
+				</Modal>
 
 			</ScrollView>
 		</Container>

@@ -1,6 +1,7 @@
 import firebase from 'react-native-firebase'
 
 let ref = firebase.storage().ref('imgs-feedback')
+let collectionFeedback = firebase.firestore().collection('feedback')
 
 export async function UploadImageFeedback(pathImage, nameImage, idFeedback) {
     try {
@@ -17,8 +18,21 @@ export async function UploadImageFeedback(pathImage, nameImage, idFeedback) {
     }
 }
 
-export function RegisterFeedback(feedback) {
+export async function RegisterFeedback(idCap, quantityPeople, quantityConversion, quantityMiracles, descriptionMiracles) {
     try {
+        let feedbackCap = {
+			dateFeedback: new Date(),
+			descriptionMiracles: descriptionMiracles,
+			idCap: firebase.firestore().doc(`caps/${idCap}`),
+			photoCap: '',
+			quantityConversion: quantityConversion,
+			quantityMiracles: quantityMiracles,
+			quantityPeople: quantityPeople
+        }
+        
+        let register = await collectionFeedback.add(feedbackCap)
+
+        return register.id
 
     } catch (error) {
         console.warn("Error RegisterFeedback: ", error.response);
@@ -26,4 +40,17 @@ export function RegisterFeedback(feedback) {
     }
 }
 
-export default { RegisterFeedback, UploadImageFeedback }
+export async function UpdateFeedback(idFeedback, url) {
+    try {
+        await collectionFeedback.doc(idFeedback).update({
+            photoCap: url
+        })
+        return true
+        
+    } catch (error) {
+        console.warn("Error UpdateFeedback: ", error.response);
+        throw error
+    }
+}
+
+export default { UploadImageFeedback, RegisterFeedback, UpdateFeedback }

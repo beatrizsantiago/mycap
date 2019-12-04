@@ -12,37 +12,71 @@ import { SearchContainer, AutocompleteContainer, SelectContainer, Select, Button
 
 export default function SearchCap() {
 
-	const [listCaps, setListCaps] = useState([])
 	const [region, setRegion] = useState({
-		latitude: 0.0,
-		longitude: 0.0,
+		latitude: -3.7684145,
+		longitude: -38.5174,
 		latitudeDelta: 0.03,
 		longitudeDelta: 0.03
 	})
+	const [listCaps, setListCaps] = useState([])
 	const [searchLocale, setSearchLocale] = useState('')
 	const [hideResults, setHideResults] = useState(true)
+	const [searchDay, setSearchDay] = useState('')
+	const [searchHour, setSearchHour] = useState('')
 
 	useEffect(() => {
+		listAllCaps()
+	}, [])
+
+	listAllCaps = () => {
 		CapService.GetCaps()
 			.then(caps => setListCaps(caps))
 
 		setCurrentPosition()
-	}, [])
+	}
 
 	const setCurrentPosition = () => {
-		Geolocation.getCurrentPosition(info => setRegion({ latitude: info.coords.latitude, longitude: info.coords.longitude, latitudeDelta: 0.03, longitudeDelta: 0.03 }))
+		// Geolocation.getCurrentPosition(info => setRegion({ latitude: info.coords.latitude, longitude: info.coords.longitude, latitudeDelta: 0.03, longitudeDelta: 0.03 }))
+		setRegion({
+			latitude: -3.7684145,
+			longitude: -38.5174,
+			latitudeDelta: 0.03,
+			longitudeDelta: 0.03
+		})
+	}
+
+	const handleSearchDay = value => {
+		setSearchDay(value)
+		let filterCapsDay = listCaps.filter(filterCap => filterCap.day == value)
+		setListCaps(filterCapsDay)
 	}
 
 	const clearInput = () => {
 		setSearchLocale('')
 		setHideResults(true)
 		setCurrentPosition()
+		listAllCaps()
 	}
+
+	const handleSearch = resultCap => {
+		setListCaps([resultCap])
+		setSearchLocale(resultCap.local)
+		setHideResults(true)
+		setRegion({
+			latitude: parseFloat(resultCap.latitude),
+			longitude: parseFloat(resultCap.longitude),
+			latitudeDelta: 0.002,
+			longitudeDelta: 0.002
+		})
+	}
+
+	const dataCaps = listCaps.filter(filterCap => filterCap.local.includes(searchLocale))
 
 	return (
 		<Container>
 			<MapView region={region} style={{ flex: 1 }} showsUserLocation={true} showsMyLocationButton={false}>
 				{
+
 					listCaps.map(cap =>
 						<Marker key={cap.id} coordinate={{ latitude: parseFloat(cap.latitude), longitude: parseFloat(cap.longitude) }} pinColor="#f68121">
 							<Callout>
@@ -53,17 +87,17 @@ export default function SearchCap() {
 				}
 			</MapView>
 			<SearchContainer>
-				<View style={{ flexDirection: 'row', width: '100%' }}>
+				<View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between' }}>
 					<AutocompleteContainer>
 						<Autocomplete
 							onBlur={() => setHideResults(true)}
 							hideResults={hideResults}
-							data={listCaps}
+							data={dataCaps}
 							defaultValue={searchLocale}
 							onChangeText={text => { setSearchLocale(text); setHideResults(false) }}
 							listContainerStyle={{ position: 'absolute', marginTop: 42, zIndex: 10 }}
 							renderItem={({ item, i }) => (
-								<TouchableOpacity style={styles.buttonItem} onPress={() => { }}>
+								<TouchableOpacity style={styles.buttonItem} onPress={() => handleSearch(item)}>
 									<Text style={{ fontSize: 16 }}>{item.local}</Text>
 								</TouchableOpacity>
 							)}
@@ -84,7 +118,7 @@ export default function SearchCap() {
 				</View>
 				<SelectContainer>
 					<Select>
-						<Picker style={styles.select} >
+						<Picker style={styles.select} selectedValue={searchDay} onValueChange={value => handleSearchDay(value)} >
 							<Picker.Item label="Dia" value="" />
 							<Picker.Item label="Segunda" value="Segunda" />
 							<Picker.Item label="Terça" value="Terca" />
@@ -96,13 +130,14 @@ export default function SearchCap() {
 						</Picker>
 					</Select>
 					<Select>
-						<Picker style={styles.select} >
+						<Picker style={styles.select} selectedValue={searchHour} onValueChange={value => setSearchHour(value)} >
 							<Picker.Item label="Hora" value="" />
-							<Picker.Item label="18h" value="" />
-							<Picker.Item label="18:30h" value="" />
-							<Picker.Item label="19:30h" value="" />
-							<Picker.Item label="20h" value="" />
-							<Picker.Item label="20:30h" value="" />
+							<Picker.Item label="18h" value="18h" />
+							<Picker.Item label="18:30h" value="18:30h" />
+							<Picker.Item label="19h" value="19h" />
+							<Picker.Item label="19:30h" value="19:30h" />
+							<Picker.Item label="20h" value="20h" />
+							<Picker.Item label="20:30h" value="20:30h" />
 						</Picker>
 					</Select>
 				</SelectContainer>

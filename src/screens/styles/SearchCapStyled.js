@@ -19,7 +19,7 @@ export const SearchContainer = styled.View`
 export const AutocompleteContainer = styled.View`
     display: flex;
     flex-direction: row;
-    width: 85.5%;
+    width: 87%;
 `
 
 export const SelectContainer = styled.View`
@@ -33,7 +33,7 @@ export const Select = styled.View`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 48.6%;
+    width: 48.8%;
     height: 43px;
     background-color: #fff;
     border: solid 1px #c2c2c2;

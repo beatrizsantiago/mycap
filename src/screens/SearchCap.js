@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import CapService from '../services/CapService'
 
 import { Container } from './styles/MainStyled'
-import { SearchContainer, AutocompleteContainer, SelectContainer, Select, ButtonClose, ButtonCentralize, ButtonCloseCard, LargeInput, TextLarge, MediumInput, TextMedim, IconsInput } from './styles/SearchCapStyled'
+import { SearchContainer, AutocompleteContainer, SelectContainer, Select, ButtonClose, ButtonCentralize, ButtonCloseSelect, ButtonCloseCard, LargeInput, TextLarge, MediumInput, TextMedim, IconsInput } from './styles/SearchCapStyled'
 
 export default function SearchCap() {
 
@@ -43,13 +43,26 @@ export default function SearchCap() {
 		// 	latitudeDelta: latD ? latD : 0.03, 
 		// 	longitudeDelta: longD ? longD : 0.03 
 		// }))
-		
+
 		setRegion({
 			latitude: lat ? lat : -3.7684145,
 			longitude: long ? long : -38.5174,
 			latitudeDelta: latD ? latD : 0.03,
 			longitudeDelta: longD ? longD : 0.03
 		})
+	}
+
+	const handleSearchHour = value => {
+		setSearchHour(value)
+
+		if (!value) {
+			setCurrentPosition()
+			setListCaps(allCaps)
+		} else {
+			let filterCapsHour = allCaps.filter(filterCap => filterCap.hour == value)
+			setListCaps(filterCapsHour)
+			setCurrentPosition(null, null, 0.15, 0.15)
+		}
 	}
 
 	const handleSearchDay = value => {
@@ -137,9 +150,14 @@ export default function SearchCap() {
 							<Picker.Item label="Sábado" value="Sabado" />
 							<Picker.Item label="Domingo" value="Domingo" />
 						</Picker>
+						{searchDay ?
+							<ButtonCloseSelect onPress={() => handleSearchDay()}>
+								<Icon name="window-close" color="#fff" size={30} />
+							</ButtonCloseSelect>
+							: null}
 					</Select>
 					<Select>
-						<Picker style={styles.select} selectedValue={searchHour} onValueChange={value => setSearchHour(value)} >
+						<Picker style={styles.select} selectedValue={searchHour} onValueChange={value => handleSearchHour(value)} >
 							<Picker.Item label="Hora" value="" />
 							<Picker.Item label="18h" value="18h" />
 							<Picker.Item label="18:30h" value="18:30h" />
@@ -148,6 +166,11 @@ export default function SearchCap() {
 							<Picker.Item label="20h" value="20h" />
 							<Picker.Item label="20:30h" value="20:30h" />
 						</Picker>
+						{searchHour ?
+							<ButtonCloseSelect onPress={() => handleSearchHour()}>
+								<Icon name="window-close" color="#fff" size={30} />
+							</ButtonCloseSelect>
+							: null}
 					</Select>
 				</SelectContainer>
 			</SearchContainer>

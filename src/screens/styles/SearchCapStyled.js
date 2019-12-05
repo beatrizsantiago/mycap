@@ -61,6 +61,19 @@ export const ButtonCentralize = styled.TouchableOpacity`
     background-color: rgba(255, 255, 255, 0.8);
 `
 
+export const ButtonCloseSelect = styled.TouchableOpacity`
+    position: absolute;
+    right: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 46px;
+    height: 42px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: #f68121;
+`
+
 export const ButtonCloseCard = styled.TouchableOpacity`
     display: flex;
     justify-content: center;

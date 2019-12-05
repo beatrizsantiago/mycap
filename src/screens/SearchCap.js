@@ -18,6 +18,7 @@ export default function SearchCap() {
 		latitudeDelta: 0.03,
 		longitudeDelta: 0.03
 	})
+	const [allCaps, setAllCaps] = useState([])
 	const [listCaps, setListCaps] = useState([])
 	const [searchLocale, setSearchLocale] = useState('')
 	const [hideResults, setHideResults] = useState(true)
@@ -30,44 +31,52 @@ export default function SearchCap() {
 
 	listAllCaps = () => {
 		CapService.GetCaps()
-			.then(caps => setListCaps(caps))
+			.then(caps => { setListCaps(caps); setAllCaps(caps) })
 
 		setCurrentPosition()
 	}
 
-	const setCurrentPosition = () => {
-		// Geolocation.getCurrentPosition(info => setRegion({ latitude: info.coords.latitude, longitude: info.coords.longitude, latitudeDelta: 0.03, longitudeDelta: 0.03 }))
+	const setCurrentPosition = (lat, long, latD, longD) => {
+		// Geolocation.getCurrentPosition(info => setRegion({ 
+		// 	latitude: lat ? lat : info.coords.latitude, 
+		// 	longitude: long ? long : info.coords.longitude, 
+		// 	latitudeDelta: latD ? latD : 0.03, 
+		// 	longitudeDelta: longD ? longD : 0.03 
+		// }))
+		
 		setRegion({
-			latitude: -3.7684145,
-			longitude: -38.5174,
-			latitudeDelta: 0.03,
-			longitudeDelta: 0.03
+			latitude: lat ? lat : -3.7684145,
+			longitude: long ? long : -38.5174,
+			latitudeDelta: latD ? latD : 0.03,
+			longitudeDelta: longD ? longD : 0.03
 		})
 	}
 
 	const handleSearchDay = value => {
 		setSearchDay(value)
-		let filterCapsDay = listCaps.filter(filterCap => filterCap.day == value)
-		setListCaps(filterCapsDay)
+
+		if (!value) {
+			setCurrentPosition()
+			setListCaps(allCaps)
+		} else {
+			let filterCapsDay = allCaps.filter(filterCap => filterCap.day == value)
+			setListCaps(filterCapsDay)
+			setCurrentPosition(null, null, 0.15, 0.15)
+		}
 	}
 
 	const clearInput = () => {
 		setSearchLocale('')
 		setHideResults(true)
 		setCurrentPosition()
-		listAllCaps()
+		setListCaps(allCaps)
 	}
 
 	const handleSearch = resultCap => {
 		setListCaps([resultCap])
 		setSearchLocale(resultCap.local)
 		setHideResults(true)
-		setRegion({
-			latitude: parseFloat(resultCap.latitude),
-			longitude: parseFloat(resultCap.longitude),
-			latitudeDelta: 0.002,
-			longitudeDelta: 0.002
-		})
+		setCurrentPosition(parseFloat(resultCap.latitude), parseFloat(resultCap.longitude), 0.002, 0.002)
 	}
 
 	const dataCaps = listCaps.filter(filterCap => filterCap.local.includes(searchLocale))

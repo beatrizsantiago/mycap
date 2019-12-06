@@ -15,7 +15,7 @@ export async function GetCaps() {
         return listCaps
         
     } catch (error) {
-        console.warn("Error GetCaps: ", error.response);
+        console.warn("Error GetCaps: ", error);
         throw error
     }
 }

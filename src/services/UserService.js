@@ -9,7 +9,7 @@ export async function Login(email, password) {
         return dataLogin.user.uid
 
     } catch (error) {
-        console.warn("Error Login: ", error.response);
+        console.warn("Error Login: ", error);
         throw error
     }
 }
@@ -21,7 +21,7 @@ export async function Logout() {
         return true
 
     } catch (error) {
-        console.warn("Error Logout: ", error.response);
+        console.warn("Error Logout: ", error);
         throw error
     }
 }

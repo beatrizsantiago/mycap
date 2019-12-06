@@ -38,15 +38,22 @@ export default function Feedback() {
 
 	const sendFeedback = async () => {
 		setLoading(true)
-		let idFeedback = await FeedbackService.RegisterFeedback(idCap, parseInt(quantityPeople), parseInt(quantityConversion), hasMiracles == true ? parseInt(quantityMiracles) : 0, descriptionMiracles)
+		try {
+			let idFeedback = await FeedbackService.RegisterFeedback(idCap, parseInt(quantityPeople), parseInt(quantityConversion), hasMiracles == true ? parseInt(quantityMiracles) : 0, descriptionMiracles)
 
-		if (imageSource) {
-			let urlImage = await FeedbackService.UploadImageFeedback(imageSource.path, imageSource.name, idFeedback)
-			FeedbackService.UpdateFeedback(idFeedback, urlImage)
-				.then(() => { initialState(); return showMessage('Feedback enviado com sucesso.') })
-		} else {
-			initialState()
-			return showMessage('Feedback enviado com sucesso.')
+			if (imageSource) {
+				let urlImage = await FeedbackService.UploadImageFeedback(imageSource.path, imageSource.name, idFeedback)
+				FeedbackService.UpdateFeedback(idFeedback, urlImage)
+					.then(() => { initialState(); return showMessage('Feedback enviado com sucesso.') })
+			} else {
+				initialState()
+				return showMessage('Feedback enviado com sucesso.')
+			}
+		} catch (error) {
+			console.warn("Error Feedback: ", error);
+			
+		} finally {
+			setLoading(false)
 		}
 	}
 
@@ -102,7 +109,7 @@ export default function Feedback() {
 
 	return (
 		<Container>
-			<ScrollView>
+			<ScrollView style={{ marginBottom: 5 }}>
 				<MediumInput>
 					<ColMediumInput>
 						<Label>N° de Pessoas</Label>

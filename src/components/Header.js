@@ -15,7 +15,7 @@ export default Header = props => {
 
 	const alertDiscart = () => {
 		Alert.alert(
-			'Atenção', 'Realmente deseja sair do aplicativo?',
+			'Atenção!', 'Realmente deseja sair do aplicativo?',
 			[
 				{ text: 'Não' },
 				{ text: 'Sim', onPress: () => discartDatas() }

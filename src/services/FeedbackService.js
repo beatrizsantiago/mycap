@@ -5,15 +5,20 @@ let collectionFeedback = firebase.firestore().collection('feedback')
 
 export async function UploadImageFeedback(pathImage, nameImage, idFeedback) {
     try {
+        console.warn(pathImage, nameImage, idFeedback);
+        
         let image = ref.child(idFeedback).child(nameImage)
 
         await image.put(pathImage)
+        console.warn("Chegou 01");
+        
         let url = await image.getDownloadURL()
+        console.warn("Chegou 02");
 
         return url
 
     } catch (error) {
-        console.warn("Error UploadImageFeedback: ", error.response);
+        console.warn("Error UploadImageFeedback: ", error);
         throw error
     }
 }
@@ -35,7 +40,7 @@ export async function RegisterFeedback(idCap, quantityPeople, quantityConversion
         return register.id
 
     } catch (error) {
-        console.warn("Error RegisterFeedback: ", error.response);
+        console.warn("Error RegisterFeedback: ", error);
         throw error
     }
 }
@@ -48,7 +53,7 @@ export async function UpdateFeedback(idFeedback, url) {
         return true
         
     } catch (error) {
-        console.warn("Error UpdateFeedback: ", error.response);
+        console.warn("Error UpdateFeedback: ", error);
         throw error
     }
 }

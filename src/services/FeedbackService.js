@@ -5,15 +5,10 @@ let collectionFeedback = firebase.firestore().collection('feedback')
 
 export async function UploadImageFeedback(pathImage, nameImage, idFeedback) {
     try {
-        console.warn(pathImage, nameImage, idFeedback);
-        
-        let image = ref.child(idFeedback).child(nameImage)
-
+        let image = await ref.child(idFeedback).child(nameImage)
         await image.put(pathImage)
-        console.warn("Chegou 01");
         
         let url = await image.getDownloadURL()
-        console.warn("Chegou 02");
 
         return url
 

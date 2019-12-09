@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, Picker, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, Picker, TouchableOpacity, Animated, Easing, StyleSheet } from 'react-native'
 import MapView, { Marker, Callout } from 'react-native-maps'
 import Geolocation from '@react-native-community/geolocation'
 import Autocomplete from 'react-native-autocomplete-input'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import IconLocal from 'react-native-vector-icons/Entypo'
 
 import CapService from '../services/CapService'
 
-import { Container } from './styles/MainStyled'
-import { SearchContainer, AutocompleteContainer, SelectContainer, Select, ButtonClose, ButtonCentralize, ButtonCloseSelect, ButtonCloseCard, LargeInput, TextLarge, MediumInput, TextMedim, IconsInput } from './styles/SearchCapStyled'
+import { Container, SearchContainer, AutocompleteContainer, SelectContainer, Select, ButtonClose, ButtonCentralize, ButtonCloseSelect, ButtonCloseCard, LargeInput, TextLarge, MediumInput, TextMedim, IconsInput } from './styles/SearchCapStyled'
 
 export default function SearchCap() {
 
 	const [region, setRegion] = useState({
-		latitude: -3.7684145,
-		longitude: -38.5174,
+		latitude: 0.0,
+		longitude: 0.0,
 		latitudeDelta: 0.03,
 		longitudeDelta: 0.03
 	})
@@ -26,6 +26,9 @@ export default function SearchCap() {
 	const [searchHour, setSearchHour] = useState('')
 	const [inputEditable, setInputEditable] = useState(true)
 	const [viewSelects, setViewSelects] = useState(true)
+	const [animatedValue, setAnimatedValue] = useState(new Animated.Value(400))
+	const [idCapSelected, setIdCapSelected] = useState('')
+	const [dataCapSelected, setDataCapSelected] = useState({})
 
 	useEffect(() => {
 		listAllCaps()
@@ -54,6 +57,38 @@ export default function SearchCap() {
 		})
 	}
 
+	const callAnimation = (isUp, callback) => {
+		Animated.timing(
+			animatedValue,
+			{
+				toValue: isUp ? 0 : 400,
+				duration: 250,
+				easing: Easing.sin,
+				delay: 0
+			}
+		).start(callback || (() => { }))
+	}
+
+	const cardToggleHandle = selectedCap => {
+		if (!idCapSelected && selectedCap) {
+			setDataCapSelected(selectedCap)
+			setIdCapSelected(selectedCap.id)
+			callAnimation(true)
+
+		} else if (idCapSelected == selectedCap.id) {
+			setDataCapSelected({})
+			setIdCapSelected(undefined)
+			callAnimation(false)
+
+		} else if (idCapSelected != selectedCap.id) {
+			callAnimation(false, () => {
+				setDataCapSelected(selectedCap)
+				setIdCapSelected(selectedCap.id)
+				callAnimation(true)
+			})
+		}
+	}
+
 	const clearSelects = (day, hour) => {
 		if (!day && !hour) {
 			setInputEditable(true)
@@ -75,11 +110,12 @@ export default function SearchCap() {
 	const handleSearchHour = value => {
 		setSearchHour(value)
 		setInputEditable(false)
+		callAnimation(false)
 
 		if (!value) {
 			clearSelects(searchDay, value)
 
-		} else if (searchDay != '') {
+		} else if (searchDay) {
 			let filterCapsHour = allCaps.filter(filterCap => filterCap.day == searchDay && filterCap.hour == value)
 			setListCaps(filterCapsHour)
 			setCurrentPosition(null, null, 0.15, 0.15)
@@ -94,11 +130,12 @@ export default function SearchCap() {
 	const handleSearchDay = value => {
 		setSearchDay(value)
 		setInputEditable(false)
+		callAnimation(false)
 
 		if (!value) {
 			clearSelects(value, searchHour)
 
-		} else if (searchHour != '') {
+		} else if (searchHour) {
 			let filterCapsDay = allCaps.filter(filterCap => filterCap.day == value && filterCap.hour == searchHour)
 			setListCaps(filterCapsDay)
 			setCurrentPosition(null, null, 0.15, 0.15)
@@ -114,6 +151,7 @@ export default function SearchCap() {
 		setSearchLocale('')
 		setViewSelects(true)
 		setHideResults(true)
+		callAnimation(false)
 		setCurrentPosition()
 		setListCaps(allCaps)
 	}
@@ -134,11 +172,7 @@ export default function SearchCap() {
 				{
 
 					listCaps.map(cap =>
-						<Marker key={cap.id} coordinate={{ latitude: parseFloat(cap.latitude), longitude: parseFloat(cap.longitude) }} pinColor="#f68121">
-							<Callout>
-								<Text>{cap.local}</Text>
-							</Callout>
-						</Marker>
+						<Marker key={cap.id} coordinate={{ latitude: parseFloat(cap.latitude), longitude: parseFloat(cap.longitude) }} onPress={() => { cardToggleHandle(cap); setRegion({ latitude: parseFloat(cap.latitude), longitude: parseFloat(cap.longitude), latitudeDelta: region.latitudeDelta, longitudeDelta: region.longitudeDelta }) }} pinColor="#f68121" />
 					)
 				}
 			</MapView>
@@ -213,6 +247,44 @@ export default function SearchCap() {
 					</SelectContainer>
 					: null}
 			</SearchContainer>
+
+			<Animated.View style={[styles.card, { transform: [{ translateY: animatedValue }] }]}>
+				<View style={styles.viewBtn}>
+					<ButtonCloseCard onPress={() => callAnimation(false)}>
+						<Icon name="minus" color="#f68121" size={40} />
+					</ButtonCloseCard>
+				</View>
+				<LargeInput>
+					<IconLocal name="location" color="#f68121" size={25} style={{ marginRight: 8 }} />
+					<TextLarge>{dataCapSelected.local}</TextLarge>
+				</LargeInput>
+				<MediumInput>
+					<Icon name="calendar-today" color="#f68121" size={25} />
+					<TextMedim>{dataCapSelected.day}</TextMedim>
+
+					<Icon name="timer" color="#f68121" size={25} />
+					<TextMedim>{dataCapSelected.hour}</TextMedim>
+				</MediumInput>
+				<LargeInput>
+					<Icon name="phone-classic" color="#f68121" size={25} style={{ marginRight: 8 }} />
+					<TextLarge>{dataCapSelected.telephone}</TextLarge>
+				</LargeInput>
+				<LargeInput>
+					<TextLarge>{`Líder: ${dataCapSelected.leader}`}</TextLarge>
+				</LargeInput>
+				<LargeInput>
+					<TextLarge>{`Supervisor: ${dataCapSelected.supervisor}`}</TextLarge>
+				</LargeInput>
+				<IconsInput>
+					<TouchableOpacity>
+						<Icon name="home-map-marker" color="#f68121" size={30} />
+					</TouchableOpacity>
+					<TouchableOpacity>
+						<Icon name="share-variant" color="#f68121" size={30} />
+					</TouchableOpacity>
+				</IconsInput>
+			</Animated.View>
+
 		</Container>
 	)
 }

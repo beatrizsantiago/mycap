@@ -6,14 +6,21 @@ export async function GetCaps() {
     try {
         let listCaps = [];
 
-        let caps = await CollectionCaps.get();
-        
+        let caps = await CollectionCaps.where('active', '==', true).get();
+
         caps.docs.forEach(cap => {
-            listCaps.push({id: cap.id, ...cap.data()});
+            let capData = cap.data()
+            let leaderCap = {}
+            capData.leader.get()
+                .then(ldr => {
+                    leaderCap = { id: ldr.id, ...ldr.data() }
+                })
+                
+            listCaps.push({ id: cap.id, ...capData, leader: leaderCap })
         })
 
         return listCaps
-        
+
     } catch (error) {
         console.warn("Error GetCaps: ", error);
         throw error

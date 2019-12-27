@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, Picker, TouchableOpacity, Animated, Easing, StyleSheet } from 'react-native'
+import { View, Text, Picker, TouchableOpacity, Animated, Easing, StyleSheet, Platform, Linking, Share } from 'react-native'
 import MapView, { Marker, Callout } from 'react-native-maps'
 import Geolocation from '@react-native-community/geolocation'
 import Autocomplete from 'react-native-autocomplete-input'
@@ -36,7 +36,11 @@ export default function SearchCap() {
 
 	listAllCaps = () => {
 		CapService.GetCaps()
-			.then(caps => { setListCaps(caps); setAllCaps(caps) })
+			.then(caps => {
+				console.warn(caps)
+				setListCaps(caps)
+				setAllCaps(caps)
+			})
 
 		setCurrentPosition()
 	}
@@ -56,6 +60,18 @@ export default function SearchCap() {
 			longitudeDelta: longD ? longD : 0.03
 		})
 	}
+
+	goLocal = (latitudeCap, longitudeCap) => {
+        const scheme  = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' })
+        const latLng = `${latitudeCap}, ${longitudeCap}`
+        const label = 'Custom Label'
+        const url = Platform.select({
+            ios: `${scheme}${label}@${latLng}`,
+            android: `${scheme}${latLng}(${label})`
+        })
+
+        Linking.openURL(url)
+    }
 
 	const callAnimation = (isUp, callback) => {
 		Animated.timing(
@@ -267,16 +283,16 @@ export default function SearchCap() {
 				</MediumInput>
 				<LargeInput>
 					<Icon name="phone-classic" color="#f68121" size={25} style={{ marginRight: 8 }} />
-					<TextLarge>{dataCapSelected.telephone}</TextLarge>
+					<TextLarge>{dataCapSelected.leader ? dataCapSelected.leader.telephone : ''}</TextLarge>
 				</LargeInput>
 				<LargeInput>
-					<TextLarge>{`Líder: ${dataCapSelected.leader}`}</TextLarge>
+					<TextLarge>{`Líder: ${dataCapSelected.leader ? dataCapSelected.leader.name : ''}`}</TextLarge>
 				</LargeInput>
 				<LargeInput>
 					<TextLarge>{`Supervisor: ${dataCapSelected.supervisor}`}</TextLarge>
 				</LargeInput>
 				<IconsInput>
-					<TouchableOpacity>
+					<TouchableOpacity onPress={() => this.goLocal(this.state.dataCapSelected.latitude, this.state.dataCapSelected.longitude)}>
 						<Icon name="home-map-marker" color="#f68121" size={30} />
 					</TouchableOpacity>
 					<TouchableOpacity>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Text, KeyboardAvoidingView, Alert, PermissionsAndroid, Platform, Image, Modal, ActivityIndicator } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
+import NetInfo from "@react-native-community/netinfo"
 
 import UserService from '../services/UserService'
 
@@ -30,17 +31,22 @@ export default function LoginScreen(props) {
 
 	const errorLogin = () => Alert.alert('Atenção!', 'E-mail e/ou senha inválidos', [{ text: 'OK' }])
 
-	const handleLogin = () => {
-		if (!login || !password) {
-			errorLogin()
+	const handleLogin = async () => {
+		let net = await NetInfo.fetch()
+		if (net.isConnected) {
+			if (!login || !password) {
+				errorLogin()
+			} else {
+				setLoading(true)
+				UserService.Login(login, password)
+					.then(async uid => {
+						setLogin(false)
+						await AsyncStorage.setItem(StoreKeys.UidLogin, uid)
+						props.navigation.navigate('App')
+					})
+			}
 		} else {
-			setLoading(true)
-			UserService.Login(login, password)
-				.then(async uid => {
-					setLogin(false)
-					await AsyncStorage.setItem(StoreKeys.UidLogin, uid)
-					props.navigation.navigate('App')
-				})
+			return Alert.alert('Atenção!', 'É necessário conexão com a internet.', [{ text: 'OK' }])
 		}
 	}
 
@@ -62,9 +68,9 @@ export default function LoginScreen(props) {
 					<Text style={{ fontSize: 20, color: '#fff' }}>LOGIN</Text>
 				</Button>
 
-				<Footer>
+				{/* <Footer>
 					<Text style={{ fontSize: 18 }}>Esqueceu a Senha?</Text>
-				</Footer>
+				</Footer> */}
 
 			</KeyboardAvoidingView>
 

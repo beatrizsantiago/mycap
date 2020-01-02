@@ -8,6 +8,7 @@ import Splash from './src/screens/Splash'
 import Login from './src/screens/Login'
 import SearchCap from './src/screens/SearchCap'
 import Feedback from './src/screens/Feedback'
+import Profile from './src/screens/Profile'
 
 import Header from './src/components/Header'
 
@@ -33,8 +34,23 @@ const FeedbackStack = createStackNavigator({
 	}
 })
 
+const ProfileStack = createStackNavigator({
+	Profile: {
+		screen: Profile,
+		navigationOptions: ({ navigation }) => ({
+			header: () => <Header navigation={navigation} title="Meu Perfil" />,
+		})
+	}
+})
+
 const TabBottom = createMaterialBottomTabNavigator(
 	{
+		Profile: { 
+			screen: ProfileStack,
+			navigationOptions: () => ({
+				tabBarIcon: <Icon name="clipboard-account-outline" size={25} color="#fff" />
+			})
+		},
 		SearchCap: { 
 			screen: SearchCapStack,
 			navigationOptions: () => ({
@@ -48,7 +64,7 @@ const TabBottom = createMaterialBottomTabNavigator(
 			})
 		},
 	}, {
-		initialRouteName: 'SearchCap',
+		initialRouteName: 'Profile',
 		activeColor: '#fff',
 		inactiveColor: '#754822',
 		shifting: true,

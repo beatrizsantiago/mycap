@@ -31,6 +31,8 @@ export default function LoginScreen(props) {
 
 	const errorLogin = () => Alert.alert('Atenção!', 'E-mail e/ou senha inválidos', [{ text: 'OK' }])
 
+	const alertMessage = message => Alert.alert('Atenção!', message, [{ text: 'OK' }])
+
 	const handleLogin = async () => {
 		let net = await NetInfo.fetch()
 		if (net.isConnected) {
@@ -39,14 +41,22 @@ export default function LoginScreen(props) {
 			} else {
 				setLoading(true)
 				UserService.Login(login, password)
-					.then(async uid => {
-						setLogin(false)
-						await AsyncStorage.setItem(StoreKeys.UidLogin, uid)
-						props.navigation.navigate('App')
+					.then(async leader => {
+						setLoading(false)
+						if(leader) {
+							await AsyncStorage.setItem(StoreKeys.UidLogin, leader.UID)
+							props.navigation.navigate('App')
+						} else {
+							return alertMessage('Este usuário está desativado ou não é um líder de cap.')
+						}
+					})
+					.catch(error => {
+						setLoading(false)
+						errorLogin()
 					})
 			}
 		} else {
-			return Alert.alert('Atenção!', 'É necessário conexão com a internet.', [{ text: 'OK' }])
+			return alertMessage('É necessário conexão com a internet.')
 		}
 	}
 

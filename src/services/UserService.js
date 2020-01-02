@@ -6,10 +6,33 @@ export async function Login(email, password) {
         let dataLogin = await firebase.auth()
             .signInWithEmailAndPassword(email, password)
 
-        return dataLogin.user.uid
+        let leader = await ProfileLeader(dataLogin.user.uid)
+
+        return leader
 
     } catch (error) {
         console.warn("Error Login: ", error);
+        throw error
+    }
+}
+
+export async function ProfileLeader(uid) {
+    try {
+        let profile = await firebase.firestore().collection('leaders').where('UID', '==', uid).get()
+
+        let userLeader = {}
+        profile.docs.forEach(leader => {
+            userLeader = { id: leader.id, ...leader.data() }
+        })
+
+        if(userLeader.active) {
+            return userLeader
+        } else {
+            return null
+        }
+        
+    } catch (error) {
+        console.warn("Error ProfileLeader: ", error);
         throw error
     }
 }
@@ -26,4 +49,4 @@ export async function Logout() {
     }
 }
 
-export default { Login, Logout }
+export default { Login, ProfileLeader, Logout }

@@ -1,28 +1,37 @@
 import styled from 'styled-components/native'
 
+export const Spacing = styled.View`
+    width: 100%;
+    height: 82px;
+`
+
 export const BoxProfile = styled.View`
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     width: 100%;
-    height: 200px;
-    background-color: pink;
+    height: 145px;
+    padding: 10px;
+    background-color: #fff;
 `
 
 export const BoxImage = styled.View`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 120px;
-    height: 120px;
-    background-color: green;
+    width: 140px;
+    height: 140px;
 `
 
-export const CircleImage = styled.Image`
+export const CircleImage = styled.View`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 100%;
     border-radius: 100px;
+    background-color: #fff;
 `
 
 export const ButtonAlter = styled.TouchableOpacity`
@@ -35,7 +44,7 @@ export const ButtonAlter = styled.TouchableOpacity`
     width: 30%;
     height: 30%;
     border-radius: 100px;
-    background-color: orange;
+    background-color: rgba(246, 129, 33, 0.9);
 `
 
 export const UserName = styled.Text`
@@ -46,4 +55,25 @@ export const UserName = styled.Text`
 export const UserEmail = styled.Text`
     font-size: 16px;
     color: #616161;
+`
+
+export const UserTelefone = styled.Text`
+    font-size: 14px;
+    color: #616161;
+`
+export const Row = styled.View`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    width: 100%;
+`
+
+export const MediumBoxWhite = styled.View`
+    display: flex;
+    flex-direction: column;
+    width: 48.5%;
+    height: 90px;
+    background-color: #fff;
 `

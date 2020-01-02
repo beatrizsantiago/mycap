@@ -6,6 +6,15 @@ export const Container = styled.View`
     background-color: #fff;
 `
 
+export const ContainerGray = styled.View`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    background-color: #f2f2f2;
+    padding: 0 10px 0 10px;
+`
+
 export const ViewModal = styled.View`
     display: flex;
     flex: 1;

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, KeyboardAvoidingView, Alert, PermissionsAndroid, Platform, Image, Modal, ActivityIndicator } from 'react-native'
+import { View, Text, Image, Modal, ActivityIndicator } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import IconMaterial from 'react-native-vector-icons/MaterialIcons'
+import IconMComm from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import UserService from '../services/UserService'
 
 import StoreKeys from '../config/storeKeys'
 
-import { Container, ContainerGray } from './styles/MainStyled'
-import { Spacing, BoxProfile, BoxImage, CircleImage, ButtonAlter, UserName, UserEmail, UserTelefone, Row, MediumBoxWhite } from './styles/ProfileStyled'
+import { ContainerGray } from './styles/MainStyled'
+import { Spacing, BoxProfile, BoxImage, CircleImage, ButtonAlter, UserName, UserEmail, UserTelefone, Row, MediumBoxWhite, MediumBoxWhitePress, CircleMedim } from './styles/ProfileStyled'
 
 export default function Profile() {
     useEffect(() => {
@@ -26,7 +27,7 @@ export default function Profile() {
             <BoxProfile>
                 <BoxImage>
                     <CircleImage>
-                        <Image style={{ width: '90%', height: '90%', borderRadius: 100 }} source={{uri: 'https://img1.ak.crunchyroll.com/i/spire1/9e3c42b298370225ccfe7a1e890a14991566505370_large.jpg'}} />
+                        <Image style={{ width: '90%', height: '90%', borderRadius: 100 }} source={{ uri: 'https://img1.ak.crunchyroll.com/i/spire1/9e3c42b298370225ccfe7a1e890a14991566505370_large.jpg' }} />
                     </CircleImage>
                     <ButtonAlter>
                         <IconMaterial name="edit" size={20} color="#fff" />
@@ -38,12 +39,18 @@ export default function Profile() {
             </BoxProfile>
 
             <Row>
-                <MediumBoxWhite>
+                <MediumBoxWhitePress>
+                    <CircleMedim>
+                        <IconMComm name="textbox-password" size={36} color="#f68121" />
+                    </CircleMedim>
                     <Text>Alterar Senha</Text>
-                </MediumBoxWhite>
-                <MediumBoxWhite>
+                </MediumBoxWhitePress>
+                <MediumBoxWhitePress>
+                    <CircleMedim>
+                        <IconMComm name="message-bulleted" size={36} color="#f68121" />
+                    </CircleMedim>
                     <Text>N° Feedbacks</Text>
-                </MediumBoxWhite>
+                </MediumBoxWhitePress>
             </Row>
 
             <Row>

@@ -8,6 +8,7 @@ import Splash from './src/screens/Splash'
 import Login from './src/screens/Login'
 import SearchCap from './src/screens/SearchCap'
 import Feedback from './src/screens/Feedback'
+import ListCaps from './src/screens/ListCaps'
 import Profile from './src/screens/Profile'
 
 import Header from './src/components/Header'
@@ -27,7 +28,7 @@ const SearchCapStack = createStackNavigator({
 
 const FeedbackStack = createStackNavigator({
 	Feedback: {
-		screen: Feedback,
+		screen: ListCaps,
 		navigationOptions: ({ navigation }) => ({
 			header: () => <Header navigation={navigation} title="Enviar Feedback" />,
 		})
@@ -64,7 +65,7 @@ const TabBottom = createMaterialBottomTabNavigator(
 			})
 		},
 	}, {
-		initialRouteName: 'Profile',
+		initialRouteName: 'Feedback',
 		activeColor: '#fff',
 		inactiveColor: '#754822',
 		shifting: true,

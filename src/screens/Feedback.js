@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, ScrollView, Picker, TouchableOpacity, Image, Alert, Modal, ActivityIndicator } from 'react-native'
 import ImagePicker from 'react-native-image-picker'
 import ImageView from 'react-native-image-view'
 import Icon from 'react-native-vector-icons/Ionicons'
 
 import FeedbackService from '../services/FeedbackService'
+import CapService from '../services/CapService'
 
 import { Container, ViewModal } from './styles/MainStyled'
 import { Label, InputText, MediumInput, ColMediumInput, LineInput, TextArea, TakePicture, ViewPicture, IconCamera, IconClose, Button } from './styles/FeedbackStyled'

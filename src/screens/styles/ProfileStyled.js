@@ -72,8 +72,31 @@ export const Row = styled.View`
 
 export const MediumBoxWhite = styled.View`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
     width: 48.5%;
     height: 90px;
+    padding: 4px;
     background-color: #fff;
+`
+
+export const MediumBoxWhitePress = styled.TouchableOpacity`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 48.5%;
+    height: 90px;
+    padding: 4px;
+    background-color: #fff;
+`
+
+export const CircleMedim = styled.View`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    margin: 0 6px;
+    border-radius: 50px;
+    background-color: rgba(246, 129, 33, 0.2);
 `

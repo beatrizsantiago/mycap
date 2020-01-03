@@ -44,7 +44,7 @@ export default function LoginScreen(props) {
 					.then(async leader => {
 						setLoading(false)
 						if(leader) {
-							await AsyncStorage.setItem(StoreKeys.UidLogin, leader.UID)
+							await AsyncStorage.setItem(StoreKeys.UidLogin, leader.id)
 							props.navigation.navigate('App')
 						} else {
 							return alertMessage('Este usuário está desativado ou não é um líder de cap.')

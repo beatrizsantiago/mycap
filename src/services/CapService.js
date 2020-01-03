@@ -1,4 +1,6 @@
 import firebase from 'react-native-firebase'
+import AsyncStorage from '@react-native-community/async-storage'
+import StoreKeys from '../config/storeKeys'
 
 let CollectionCaps = firebase.firestore().collection('caps')
 
@@ -27,4 +29,22 @@ export async function GetCaps() {
     }
 }
 
-export default { GetCaps }
+export async function GetCapsLeader() {
+    try {
+        let leadeId = await AsyncStorage.getItem(StoreKeys.UidLogin)
+        let leaderRef = firebase.firestore().collection('leaders').doc(leadeId)
+
+        let caps = await CollectionCaps.where('leader', '==', leaderRef).get()
+
+        let allCapsLeader = []
+        caps.docs.forEach(cap => allCapsLeader.push({ id: cap.id, ...cap.data() }))
+
+        return allCapsLeader
+        
+    } catch (error) {
+        console.warn("Error GetCapsLeader: ", error);
+        throw error
+    }
+}
+
+export default { GetCaps, GetCapsLeader }

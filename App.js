@@ -26,14 +26,24 @@ const SearchCapStack = createStackNavigator({
 	}
 })
 
-const FeedbackStack = createStackNavigator({
-	Feedback: {
-		screen: ListCaps,
-		navigationOptions: ({ navigation }) => ({
-			header: () => <Header navigation={navigation} title="Enviar Feedback" />,
-		})
+const FeedbackStack = createStackNavigator(
+	{
+		ListCaps: {
+			screen: ListCaps,
+			navigationOptions: ({ navigation }) => ({
+				header: () => <Header navigation={navigation} title="Enviar Feedback" />,
+			})
+		},
+		Feedback: {
+			screen: Feedback,
+			navigationOptions: ({ navigation }) => ({
+				header: () => <Header navigation={navigation} title="Enviar Feedback" />,
+			})
+		},
+	}, {
+		initialRouteName: "ListCaps",
 	}
-})
+)
 
 const ProfileStack = createStackNavigator({
 	Profile: {
@@ -65,7 +75,7 @@ const TabBottom = createMaterialBottomTabNavigator(
 			})
 		},
 	}, {
-		initialRouteName: 'Feedback',
+		initialRouteName: 'Profile',
 		activeColor: '#fff',
 		inactiveColor: '#754822',
 		shifting: true,

@@ -10,3 +10,12 @@ export const CapCard = styled.TouchableOpacity`
     border-left-width: 3px;
     border-left-color: #f68121;
 `
+
+export const LargeField = styled.View`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 3px 5px;
+`

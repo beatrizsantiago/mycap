@@ -11,8 +11,8 @@ import { Container, ViewModal } from './styles/MainStyled'
 import { Label, InputText, MediumInput, ColMediumInput, LineInput, TextArea, TakePicture, ViewPicture, IconCamera, IconClose, Button } from './styles/FeedbackStyled'
 
 
-export default function Feedback() {
-	const [idCap, setIdCap] = useState('31AMRepLGqrksGrTlUwY')
+export default function Feedback(props) {
+	const [idCap, setIdCap] = useState('')
 	const [quantityPeople, setQuantityPeople] = useState('')
 	const [quantityConversion, setQuantityConversion] = useState('')
 	const [hasMiracles, setHasMiracles] = useState(false)
@@ -21,6 +21,10 @@ export default function Feedback() {
 	const [isImageViewVisible, setIsImageViewVisible] = useState(false)
 	const [imageSource, setImageSource] = useState(null)
 	const [loading, setLoading] = useState(false)
+
+	useEffect(() => {
+		setIdCap(props.navigation.state.params.cap.id)
+	}, [])
 
 	const initialState = () => {
 		setQuantityPeople('')
@@ -37,6 +41,10 @@ export default function Feedback() {
 		Alert.alert('Atenção!', message, [{ text: 'Ok' }]);
 	}
 
+	const successSendFeedback = message => {
+		Alert.alert('Atenção!', message, [{ text: 'Ok', onPress: () => props.navigation.goBack() }]);
+	}
+
 	const sendFeedback = async () => {
 		setLoading(true)
 		try {
@@ -45,10 +53,10 @@ export default function Feedback() {
 			if (imageSource) {
 				let urlImage = await FeedbackService.UploadImageFeedback(imageSource.path, imageSource.name, idFeedback)
 				FeedbackService.UpdateFeedback(idFeedback, urlImage)
-					.then(() => { initialState(); return showMessage('Feedback enviado com sucesso.') })
+					.then(() => { initialState(); return successSendFeedback('Feedback enviado com sucesso.') })
 			} else {
 				initialState()
-				return showMessage('Feedback enviado com sucesso.')
+				return successSendFeedback('Feedback enviado com sucesso.')
 			}
 		} catch (error) {
 			console.warn("Error Feedback: ", error);

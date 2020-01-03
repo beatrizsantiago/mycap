@@ -11,15 +11,16 @@ import StoreKeys from '../config/storeKeys'
 import { ContainerGray } from './styles/MainStyled'
 import { Spacing, BoxProfile, BoxImage, CircleImage, ButtonAlter, UserName, UserEmail, UserTelefone, Row, MediumBoxWhite, MediumBoxWhitePress, CircleMedim } from './styles/ProfileStyled'
 
-export default function Profile() {
+export default function Profile(props) {
     useEffect(() => {
         getProfile()
     }, [])
 
     const getProfile = async () => {
         let user = await AsyncStorage.getItem(StoreKeys.UidLogin)
-        console.warn(user);
     }
+
+    const navigateFeedbacks = () => props.navigation.push('ListFeedbacks') //fazer validação para não navegar caso não tenha feedback
 
     return (
         <ContainerGray>
@@ -45,7 +46,7 @@ export default function Profile() {
                     </CircleMedim>
                     <Text>Alterar Senha</Text>
                 </MediumBoxWhitePress>
-                <MediumBoxWhitePress>
+                <MediumBoxWhitePress onPress={() => navigateFeedbacks()}>
                     <CircleMedim>
                         <IconMComm name="message-bulleted" size={36} color="#f68121" />
                     </CircleMedim>

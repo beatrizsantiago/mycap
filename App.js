@@ -10,6 +10,7 @@ import SearchCap from './src/screens/SearchCap'
 import Feedback from './src/screens/Feedback'
 import ListCaps from './src/screens/ListCaps'
 import Profile from './src/screens/Profile'
+import ListFeedbacks from './src/screens/ListFeedbacks'
 
 import Header from './src/components/Header'
 
@@ -26,24 +27,20 @@ const SearchCapStack = createStackNavigator({
 	}
 })
 
-const FeedbackStack = createStackNavigator(
-	{
-		ListCaps: {
-			screen: ListCaps,
-			navigationOptions: ({ navigation }) => ({
-				header: () => <Header navigation={navigation} title="Enviar Feedback" />,
-			})
-		},
-		Feedback: {
-			screen: Feedback,
-			navigationOptions: ({ navigation }) => ({
-				header: () => <Header navigation={navigation} title="Enviar Feedback" />,
-			})
-		},
-	}, {
-		initialRouteName: "ListCaps",
-	}
-)
+const FeedbackStack = createStackNavigator({
+	ListCaps: {
+		screen: ListCaps,
+		navigationOptions: ({ navigation }) => ({
+			header: () => <Header navigation={navigation} title="Enviar Feedback" />,
+		})
+	},
+	Feedback: {
+		screen: Feedback,
+		navigationOptions: ({ navigation }) => ({
+			header: () => <Header navigation={navigation} title="Enviar Feedback" />,
+		})
+	},
+})
 
 const ProfileStack = createStackNavigator({
 	Profile: {
@@ -51,7 +48,13 @@ const ProfileStack = createStackNavigator({
 		navigationOptions: ({ navigation }) => ({
 			header: () => <Header navigation={navigation} title="Meu Perfil" />,
 		})
-	}
+	},
+	ListFeedbacks: {
+		screen: ListFeedbacks,
+		navigationOptions: ({ navigation }) => ({
+			header: () => <Header navigation={navigation} title="Meus Feedbacks" />,
+		})
+	},
 })
 
 const TabBottom = createMaterialBottomTabNavigator(

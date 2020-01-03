@@ -1,7 +1,10 @@
 import firebase from 'react-native-firebase'
+import AsyncStorage from '@react-native-community/async-storage'
+import StoreKeys from '../config/storeKeys'
 
 let ref = firebase.storage().ref('imgs-feedback')
 let collectionFeedback = firebase.firestore().collection('feedback')
+let collectionCaps = firebase.firestore().collection('caps')
 
 export async function UploadImageFeedback(pathImage, nameImage, idFeedback) {
     try {
@@ -53,4 +56,27 @@ export async function UpdateFeedback(idFeedback, url) {
     }
 }
 
-export default { UploadImageFeedback, RegisterFeedback, UpdateFeedback }
+export async function GetFeedbacks() {
+    try {
+        let leadeId = await AsyncStorage.getItem(StoreKeys.UidLogin)
+        let leaderRef = firebase.firestore().collection('leaders').doc(leadeId)
+
+        let caps = await collectionCaps.where('leader', '==', leaderRef).get()
+
+        let feedbacksLeader = []
+        caps.docs.map(async cap => {
+            let capRef = collectionCaps.doc(cap.id)
+            let feedbacks = await collectionFeedback.where('idCap', '==', capRef).get()
+
+            feedbacks.docs.map(feedback => {
+                feedbacksLeader.push({ id: feedback.id, ...feedback.data()})
+            })
+        })
+
+    } catch (error) {
+        console.warn("Error GetFeedbacks: ", error);
+        throw error
+    }
+}
+
+export default { UploadImageFeedback, RegisterFeedback, UpdateFeedback, GetFeedbacks }

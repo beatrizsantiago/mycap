@@ -1,5 +1,6 @@
 const storeKeys = {
-    UidLogin: "UID:LOGIN",
+    IdLeader: "ID:LEADER",
+    UidLogin: "UID:LOGIN"
 }
 
 export default storeKeys

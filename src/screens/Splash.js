@@ -7,7 +7,7 @@ import Logo from '../assets/img/logo_cap.png'
 
 export default class Splash extends Component {
     async componentDidMount() {
-        let hasUser = await AsyncStorage.getItem(StoreKeys.UidLogin)
+        let hasUser = await AsyncStorage.getItem(StoreKeys.IdLeader)
         
         if(hasUser) {
             this.props.navigation.navigate('App')

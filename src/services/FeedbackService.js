@@ -58,7 +58,7 @@ export async function UpdateFeedback(idFeedback, url) {
 
 export async function GetFeedbacks() {
     try {
-        let leadeId = await AsyncStorage.getItem(StoreKeys.UidLogin)
+        let leadeId = await AsyncStorage.getItem(StoreKeys.IdLeader)
         let leaderRef = firebase.firestore().collection('leaders').doc(leadeId)
 
         let caps = await collectionCaps.where('leader', '==', leaderRef).get()
@@ -72,6 +72,10 @@ export async function GetFeedbacks() {
                 feedbacksLeader.push({ id: feedback.id, ...feedback.data()})
             })
         })
+
+        console.warn(feedbacksLeader);
+
+        return feedbacksLeader
 
     } catch (error) {
         console.warn("Error GetFeedbacks: ", error);

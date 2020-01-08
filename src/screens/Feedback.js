@@ -113,7 +113,7 @@ export default function Feedback(props) {
 				let source = { uri: `data:${response.type};base64,${response.data}` }
 				setImageSource({ width: response.width, height: response.height, path: response.path, name: response.fileName, image: source })
 			}
-		});
+		})
 	}
 
 	return (

@@ -2,6 +2,9 @@ import firebase from 'react-native-firebase'
 import AsyncStorage from '@react-native-community/async-storage'
 import StoreKeys from '../config/storeKeys'
 
+let collectionLeaders = firebase.firestore().collection('leaders')
+let ref = firebase.storage().ref('imgs-profiles')
+
 export async function Login(email, password) {
     try {
         let dataLogin = await firebase.auth()
@@ -19,32 +22,30 @@ export async function Login(email, password) {
 
 export async function ProfileLeader(uid) {
     try {
-        let profile = await firebase.firestore().collection('leaders').where('UID', '==', uid).get()
+        let profile = await collectionLeaders.where('UID', '==', uid).get()
 
         let userLeader = {}
         profile.docs.forEach(leader => {
             userLeader = { id: leader.id, ...leader.data() }
         })
 
-        if(userLeader.active) {
+        if (userLeader.active) {
             return userLeader
         } else {
             return null
         }
-        
+
     } catch (error) {
         console.warn("Error ProfileLeader: ", error);
         throw error
     }
 }
 
-let ref = firebase.storage().ref('imgs-profiles')
-
 export async function UploadImageProfile(pathImage, nameImage, leadeId) {
     try {
         let image = await ref.child(leadeId).child(nameImage)
         await image.put(pathImage)
-        
+
         let url = await image.getDownloadURL()
 
         return url
@@ -60,13 +61,42 @@ export async function UpdateImageProfile(pathImage, nameImage) {
         let leadeId = await AsyncStorage.getItem(StoreKeys.IdLeader)
         let url = await UploadImageProfile(pathImage, nameImage, leadeId)
 
-        await firebase.firestore().collection('leaders').doc(leadeId).update({
+        await collectionLeaders.doc(leadeId).update({
             photoProfile: url
         })
+
         return true
-        
+
     } catch (error) {
         console.warn("Error UpdateImageProfile: ", error);
+        throw error
+    }
+}
+
+export async function UpdateTelephone(telephone) {
+    try {
+        let leadeId = await AsyncStorage.getItem(StoreKeys.IdLeader)
+
+        await collectionLeaders.doc(leadeId).update({
+            telephone: telephone
+        })
+
+        return true
+    } catch (error) {
+        console.warn("Error UpdateTelephone: ", error);
+        throw error
+    }
+}
+
+export async function UpdatePassword(newPassword) {
+    try {
+        let user = firebase.auth().currentUser
+        await user.updatePassword(newPassword)
+
+        return true
+
+    } catch (error) {
+        console.warn("Error UpdatePassword: ", error);
         throw error
     }
 }
@@ -83,4 +113,4 @@ export async function Logout() {
     }
 }
 
-export default { Login, ProfileLeader, UploadImageProfile, UpdateImageProfile, Logout }
+export default { Login, ProfileLeader, UploadImageProfile, UpdateImageProfile, UpdateTelephone, UpdatePassword, Logout }

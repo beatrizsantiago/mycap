@@ -61,6 +61,7 @@ export const UserTelefone = styled.Text`
     font-size: 14px;
     color: #616161;
 `
+
 export const Row = styled.View`
     display: flex;
     flex-direction: row;
@@ -99,4 +100,77 @@ export const CircleMedim = styled.View`
     margin: 0 6px;
     border-radius: 50px;
     background-color: rgba(246, 129, 33, 0.2);
+`
+
+export const ModalAlter = styled.View`
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.6);
+`
+
+export const ContainerModal = styled.View`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 300px;
+    background-color: #fff;
+    border-radius: 4px;
+`
+
+export const InputPassword = styled.TextInput`
+    width: 82%;
+    height: 40px;
+    margin: 20px 0px;
+    padding: 5px;
+    border: solid 1px #dbdbdb;
+    border-radius: 5px;
+    font-size: 15px;
+`
+
+export const AlignInputPassword = styled.View`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+`
+
+export const BoxIconViewPassword = styled.TouchableOpacity`
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 38px;
+    right: 3%;
+    background-color: #fff;
+`
+
+export const ViewButtons = styled.View`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 82%;
+`
+
+export const ButtonEnable = styled.TouchableOpacity`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 47%;
+    height: 35px;
+    background-color: #f68121;
+`
+
+export const ButtonDisable = styled.TouchableOpacity`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 47%;
+    height: 35px;
+    border: solid 1px #f68121;
+    background-color: #fff;
 `

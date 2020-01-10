@@ -137,9 +137,12 @@ export default function Profile(props) {
             </Row>
 
             <Row>
-                <MediumBoxWhite>
-
-                </MediumBoxWhite>
+                <MediumBoxWhitePress>
+                    <CircleMedim>
+                        <IconMComm name="file-document-box-multiple-outline" size={36} color="#f68121" />
+                    </CircleMedim>
+                    <Text>Ver Palavra</Text>
+                </MediumBoxWhitePress>
                 <MediumBoxWhite>
 
                 </MediumBoxWhite>

@@ -137,7 +137,7 @@ export default function Profile(props) {
             </Row>
 
             <Row>
-                <MediumBoxWhitePress>
+                <MediumBoxWhitePress onPress={() => props.navigation.push('ViewPreaching')}>
                     <CircleMedim>
                         <IconMComm name="file-document-box-multiple-outline" size={36} color="#f68121" />
                     </CircleMedim>

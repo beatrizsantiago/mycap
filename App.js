@@ -11,6 +11,7 @@ import Feedback from './src/screens/Feedback'
 import ListCaps from './src/screens/ListCaps'
 import Profile from './src/screens/Profile'
 import ListFeedbacks from './src/screens/ListFeedbacks'
+import ViewPreaching from './src/screens/ViewPreaching'
 
 import Header from './src/components/Header'
 
@@ -55,6 +56,12 @@ const ProfileStack = createStackNavigator({
 			header: () => <Header navigation={navigation} title="Meus Feedbacks" />,
 		})
 	},
+	ViewPreaching: {
+		screen: ViewPreaching,
+		navigationOptions: ({ navigation }) => ({
+			header: () => <Header navigation={navigation} title="Palavra da Cap" />,
+		})
+	}
 })
 
 const TabBottom = createMaterialBottomTabNavigator(

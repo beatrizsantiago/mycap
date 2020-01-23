@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, Clipboard, Modal } from 'react-native'
+import { View, Text, Clipboard, Modal, Alert } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Pdf from 'react-native-pdf'
+import RNFetchBlob from 'rn-fetch-blob'
 
 import PreachingService from '../services/PreachingService'
 
 import { ContainerGray, ViewModal } from './styles/MainStyled'
-import { 
-    LargeBox, TitleBox, TitleTheme, BoxInput, InputUrl, ButtonCopy, ContainerPdf, ButtonDownload, ButtonFull, TitleBoxPdf, BoxEmptyFile, 
-    TextEmpty, CloseModal 
+import {
+    LargeBox, TitleBox, TitleTheme, BoxInput, InputUrl, ButtonCopy, ContainerPdf, ButtonDownload, ButtonFull, TitleBoxPdf, BoxEmptyFile,
+    TextEmpty, CloseModal
 } from './styles/ViewPreachingStyled'
 
 export default function ViewPreaching(props) {
@@ -29,6 +30,21 @@ export default function ViewPreaching(props) {
                 setFilePreaching(file)
             })
     }, [])
+
+    const download = () => {
+        let dirs = RNFetchBlob.fs.dirs
+        RNFetchBlob
+            .config({
+                fileCache: true,
+                path: dirs.DocumentDir + `/${filePreaching.title}.pdf`
+            })
+            .fetch('GET', filePreaching.urlPdfPreaching)
+            .then((res) => Alert.alert('Sucesso!', `Arquivo salvo em: ${res.path()}`, [{ text: 'OK' }]))
+    }
+
+    const copyUrlVideo = () => {
+        Clipboard.setString(filePreaching.urlVideo)
+    }
 
     return (
         <View style={{ flex: 1 }}>
@@ -51,7 +67,7 @@ export default function ViewPreaching(props) {
                                     <TitleBox>Video de apoio</TitleBox>
                                     <BoxInput>
                                         <InputUrl value={filePreaching.urlVideo} editable={false} />
-                                        <ButtonCopy onPress={() => Clipboard.setString(filePreaching.urlVideo)}>
+                                        <ButtonCopy onPress={() => copyUrlVideo()}>
                                             <Text style={{ color: '#fff', fontSize: 14, fontWeight: 'bold' }}>Copiar Url</Text>
                                         </ButtonCopy>
                                     </BoxInput>
@@ -60,7 +76,7 @@ export default function ViewPreaching(props) {
                         }
                         <ContainerPdf>
                             <TitleBoxPdf>Anexo do Arquivo</TitleBoxPdf>
-                            <ButtonDownload>
+                            <ButtonDownload onPress={() => download()}>
                                 <Icon name="download" color="#f68121" size={28} />
                             </ButtonDownload>
                             <ButtonFull onPress={() => setIsModalVisible(true)}>

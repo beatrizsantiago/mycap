@@ -11,6 +11,7 @@ import Feedback from './src/screens/Feedback'
 import ListCaps from './src/screens/ListCaps'
 import Profile from './src/screens/Profile'
 import ListFeedbacks from './src/screens/ListFeedbacks'
+import FeedbackDetails from './src/screens/FeedbackDetails'
 import ViewPreaching from './src/screens/ViewPreaching'
 
 import Header from './src/components/Header'
@@ -54,6 +55,12 @@ const ProfileStack = createStackNavigator({
 		screen: ListFeedbacks,
 		navigationOptions: ({ navigation }) => ({
 			header: () => <Header navigation={navigation} title="Meus Feedbacks" />,
+		})
+	},
+	FeedbackDetails: {
+		screen: FeedbackDetails,
+		navigationOptions: ({ navigation }) => ({
+			header: () => <Header navigation={navigation} title="Detalhes" />,
 		})
 	},
 	ViewPreaching: {

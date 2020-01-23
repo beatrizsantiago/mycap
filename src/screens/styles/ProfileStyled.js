@@ -67,7 +67,7 @@ export const Row = styled.View`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-top: 10px;
+    margin: 10px 0px;
     width: 100%;
 `
 

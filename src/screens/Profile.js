@@ -135,17 +135,12 @@ export default function Profile(props) {
                 </MediumBoxWhitePress>
             </Row>
 
-            <Row>
-                <MediumBoxWhitePress onPress={() => props.navigation.push('ViewPreaching')}>
-                    <CircleMedim>
-                        <IconMComm name="file-document-box-multiple-outline" size={36} color="#f68121" />
-                    </CircleMedim>
-                    <TextBox>Ver Palavra</TextBox>
-                </MediumBoxWhitePress>
-                <MediumBoxWhite>
-
-                </MediumBoxWhite>
-            </Row>
+            <MediumBoxWhitePress onPress={() => props.navigation.push('ViewPreaching')}>
+                <CircleMedim>
+                    <IconMComm name="file-document-box-multiple-outline" size={36} color="#f68121" />
+                </CircleMedim>
+                <TextBox>Ver Palavra</TextBox>
+            </MediumBoxWhitePress>
 
             <Modal animationType="fade" transparent={true} visible={isModalVisible}>
                 <ModalAlter>

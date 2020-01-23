@@ -72,5 +72,30 @@ export const TitleBoxPdf = styled.Text`
 export const ButtonDownload = styled.TouchableOpacity`
     position: absolute;
     top: 4px;
+    left: 5px;
+`
+
+export const ButtonFull = styled.TouchableOpacity`
+    position: absolute;
+    top: 4px;
     right: 5px;
+`
+
+export const BoxEmptyFile = styled.View`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    background-color: #fff;
+`
+
+export const TextEmpty = styled.Text`
+    color: #9c9c9c;
+    font-size: 16px;
+`
+
+export const CloseModal = styled.TouchableOpacity`
+    position: absolute;
+    top: 8px;
+    right: 8px;
 `

@@ -5,7 +5,8 @@ export const DateFeedbackCard = styled.TouchableOpacity`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    width: 98%;
+    width: 100%;
+    margin-top: 5px;
     padding: 15px 8px;
     background-color: #fff;
     border-bottom-width: 1px;

@@ -102,6 +102,10 @@ export const CircleMedim = styled.View`
     background-color: rgba(246, 129, 33, 0.2);
 `
 
+export const TextBox = styled.Text`
+    font-size: 15px;
+`
+
 export const ModalAlter = styled.View`
     display: flex;
     flex: 1;

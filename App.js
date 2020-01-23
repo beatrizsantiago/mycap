@@ -85,7 +85,7 @@ const TabBottom = createMaterialBottomTabNavigator(
 			})
 		},
 	}, {
-		initialRouteName: 'Profile',
+		initialRouteName: 'SearchCap',
 		activeColor: '#fff',
 		inactiveColor: '#754822',
 		shifting: true,

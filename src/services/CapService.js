@@ -6,22 +6,20 @@ let CollectionCaps = firebase.firestore().collection('caps')
 
 export async function GetCaps() {
     try {
-        let listCaps = [];
+        let listCaps = []
+        let caps = await CollectionCaps.where('active', '==', true).get()
+        caps.docs.forEach(cap => listCaps.push({ id: cap.id, ...cap.data() }))
 
-        let caps = await CollectionCaps.where('active', '==', true).get();
+        let allInfoCaps = []
+        let getLeaders = listCaps.map(async cap => {
+            let leader = await cap.leader.get()
 
-        caps.docs.forEach(cap => {
-            let capData = cap.data()
-            let leaderCap = {}
-            capData.leader.get()
-                .then(ldr => {
-                    leaderCap = { id: ldr.id, ...ldr.data() }
-                })
-                
-            listCaps.push({ id: cap.id, ...capData, leader: leaderCap })
+            allInfoCaps.push({ ...cap, leader: { id: leader.id, ...leader.data() } })
         })
 
-        return listCaps
+        await Promise.all(getLeaders)
+
+        return allInfoCaps
 
     } catch (error) {
         console.warn("Error GetCaps: ", error);
@@ -40,7 +38,7 @@ export async function GetCapsLeader() {
         caps.docs.forEach(cap => allCapsLeader.push({ id: cap.id, ...cap.data() }))
 
         return allCapsLeader
-        
+
     } catch (error) {
         console.warn("Error GetCapsLeader: ", error);
         throw error

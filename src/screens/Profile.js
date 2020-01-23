@@ -13,7 +13,7 @@ import StoreKeys from '../config/storeKeys'
 import { ContainerGray } from './styles/MainStyled'
 import {
     Spacing, BoxProfile, BoxImage, CircleImage, ButtonAlter, UserName, UserEmail, UserTelefone, Row, MediumBoxWhite,
-    MediumBoxWhitePress, CircleMedim, ModalAlter, ContainerModal, InputPassword, AlignInputPassword, BoxIconViewPassword,
+    MediumBoxWhitePress, CircleMedim, TextBox, ModalAlter, ContainerModal, InputPassword, AlignInputPassword, BoxIconViewPassword,
     ViewButtons, ButtonEnable, ButtonDisable
 } from './styles/ProfileStyled'
 
@@ -35,12 +35,11 @@ export default function Profile(props) {
         let datasProfile = await UserService.ProfileLeader(user)
         setProfileLeader(datasProfile)
         setNewTelephone(datasProfile.telephone)
-        console.warn(datasProfile);
     }
 
     const alertMessage = message => Alert.alert('Atenção!', message, [{ text: 'OK' }])
 
-    const navigateFeedbacks = () => props.navigation.push('ListFeedbacks') //fazer validação para não navegar caso não tenha feedback
+    const navigateFeedbacks = () => props.navigation.push('ListFeedbacks')
 
     const alterPassword = () => {
         UserService.UpdatePassword(newPassword)
@@ -126,13 +125,13 @@ export default function Profile(props) {
                     <CircleMedim>
                         <IconMComm name="textbox-password" size={36} color="#f68121" />
                     </CircleMedim>
-                    <Text>Alterar Senha</Text>
+                    <TextBox>Alterar Senha</TextBox>
                 </MediumBoxWhitePress>
                 <MediumBoxWhitePress onPress={() => navigateFeedbacks()}>
                     <CircleMedim>
                         <IconMComm name="message-bulleted" size={36} color="#f68121" />
                     </CircleMedim>
-                    <Text>N° Feedbacks</Text>
+                    <TextBox>Feedbacks</TextBox>
                 </MediumBoxWhitePress>
             </Row>
 
@@ -141,7 +140,7 @@ export default function Profile(props) {
                     <CircleMedim>
                         <IconMComm name="file-document-box-multiple-outline" size={36} color="#f68121" />
                     </CircleMedim>
-                    <Text>Ver Palavra</Text>
+                    <TextBox>Ver Palavra</TextBox>
                 </MediumBoxWhitePress>
                 <MediumBoxWhite>
 

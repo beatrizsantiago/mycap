@@ -10,7 +10,7 @@ export async function UploadImageFeedback(pathImage, nameImage, idFeedback) {
     try {
         let image = await ref.child(idFeedback).child(nameImage)
         await image.put(pathImage)
-        
+
         let url = await image.getDownloadURL()
 
         return url
@@ -24,15 +24,15 @@ export async function UploadImageFeedback(pathImage, nameImage, idFeedback) {
 export async function RegisterFeedback(idCap, quantityPeople, quantityConversion, quantityMiracles, descriptionMiracles) {
     try {
         let feedbackCap = {
-			dateFeedback: new Date(),
-			descriptionMiracles: descriptionMiracles,
-			idCap: firebase.firestore().doc(`caps/${idCap}`),
-			photoCap: '',
-			quantityConversion: quantityConversion,
-			quantityMiracles: quantityMiracles,
-			quantityPeople: quantityPeople
+            dateFeedback: new Date(),
+            descriptionMiracles: descriptionMiracles,
+            idCap: firebase.firestore().doc(`caps/${idCap}`),
+            photoCap: '',
+            quantityConversion: quantityConversion,
+            quantityMiracles: quantityMiracles,
+            quantityPeople: quantityPeople
         }
-        
+
         let register = await collectionFeedback.add(feedbackCap)
 
         return register.id
@@ -49,7 +49,7 @@ export async function UpdateFeedback(idFeedback, url) {
             photoCap: url
         })
         return true
-        
+
     } catch (error) {
         console.warn("Error UpdateFeedback: ", error);
         throw error
@@ -63,19 +63,25 @@ export async function GetFeedbacks() {
 
         let caps = await collectionCaps.where('leader', '==', leaderRef).get()
 
+        let idCaps = []
+        caps.docs.forEach(cap => idCaps.push(cap.id))
+
         let feedbacksLeader = []
-        caps.docs.map(async cap => {
-            let capRef = collectionCaps.doc(cap.id)
+
+        let get = idCaps.map(async id => {
+            let capRef = collectionCaps.doc(id)
             let feedbacks = await collectionFeedback.where('idCap', '==', capRef).get()
 
-            feedbacks.docs.map(feedback => {
-                feedbacksLeader.push({ id: feedback.id, ...feedback.data()})
+            feedbacks.docs.forEach(feedback => {
+                feedbacksLeader.push({ id: feedback.id, ...feedback.data() })
             })
         })
 
-        console.warn(feedbacksLeader);
+        await Promise.all(get)
 
-        return feedbacksLeader
+        let countFeedback = feedbacksLeader.length
+
+        return { feedbacksLeader, countFeedback }
 
     } catch (error) {
         console.warn("Error GetFeedbacks: ", error);

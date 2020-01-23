@@ -37,7 +37,6 @@ export default function SearchCap() {
 	listAllCaps = () => {
 		CapService.GetCaps()
 			.then(caps => {
-				console.warn(caps)
 				setListCaps(caps)
 				setAllCaps(caps)
 			})

@@ -45,19 +45,19 @@ export default function SearchCap() {
 	}
 
 	const setCurrentPosition = (lat, long, latD, longD) => {
-		// Geolocation.getCurrentPosition(info => setRegion({ 
-		// 	latitude: lat ? lat : info.coords.latitude, 
-		// 	longitude: long ? long : info.coords.longitude, 
-		// 	latitudeDelta: latD ? latD : 0.03, 
-		// 	longitudeDelta: longD ? longD : 0.03 
-		// }))
+		Geolocation.getCurrentPosition(info => setRegion({ 
+			latitude: lat ? lat : info.coords.latitude, 
+			longitude: long ? long : info.coords.longitude, 
+			latitudeDelta: latD ? latD : 0.03, 
+			longitudeDelta: longD ? longD : 0.03 
+		}))
 
-		setRegion({
-			latitude: lat ? lat : -3.7684145,
-			longitude: long ? long : -38.5174,
-			latitudeDelta: latD ? latD : 0.03,
-			longitudeDelta: longD ? longD : 0.03
-		})
+		// setRegion({
+		// 	latitude: lat ? lat : -3.7684145,
+		// 	longitude: long ? long : -38.5174,
+		// 	latitudeDelta: latD ? latD : 0.03,
+		// 	longitudeDelta: longD ? longD : 0.03
+		// })
 	}
 
 	goLocal = (latitudeCap, longitudeCap) => {

@@ -103,7 +103,7 @@ export const CircleMedim = styled.View`
 `
 
 export const TextBox = styled.Text`
-    font-size: 15px;
+    font-size: 14px;
 `
 
 export const ModalAlter = styled.View`

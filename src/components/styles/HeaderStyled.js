@@ -3,7 +3,7 @@ import styled from 'styled-components/native'
 export const Bar = styled.View`
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     flex-direction: row;
     height: 60px;
     border-bottom-color: #ebebeb;

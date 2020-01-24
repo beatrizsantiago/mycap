@@ -24,7 +24,7 @@ const SearchCapStack = createStackNavigator({
 	SearchCap: {
 		screen: SearchCap,
 		navigationOptions: ({ navigation }) => ({
-			header: () => <Header navigation={navigation} title="Pesquisar Cap" />,
+			header: props => <Header navigation={navigation} title="Pesquisar Cap" headerProps={props} />,
 		})
 	}
 })
@@ -33,13 +33,13 @@ const FeedbackStack = createStackNavigator({
 	ListCaps: {
 		screen: ListCaps,
 		navigationOptions: ({ navigation }) => ({
-			header: () => <Header navigation={navigation} title="Enviar Feedback" />,
+			header: props => <Header navigation={navigation} title="Enviar Feedback" headerProps={props} />,
 		})
 	},
 	Feedback: {
 		screen: Feedback,
 		navigationOptions: ({ navigation }) => ({
-			header: () => <Header navigation={navigation} title="Enviar Feedback" />,
+			header: props => <Header navigation={navigation} title="Enviar Feedback" headerProps={props} />,
 		})
 	},
 })
@@ -48,38 +48,38 @@ const ProfileStack = createStackNavigator({
 	Profile: {
 		screen: Profile,
 		navigationOptions: ({ navigation }) => ({
-			header: () => <Header navigation={navigation} title="Meu Perfil" />,
+			header: props => <Header navigation={navigation} title="Meu Perfil" headerProps={props} />,
 		})
 	},
 	ListFeedbacks: {
 		screen: ListFeedbacks,
 		navigationOptions: ({ navigation }) => ({
-			header: () => <Header navigation={navigation} title="Meus Feedbacks" />,
+			header: props => <Header navigation={navigation} title="Meus Feedbacks" headerProps={props} />,
 		})
 	},
 	FeedbackDetails: {
 		screen: FeedbackDetails,
 		navigationOptions: ({ navigation }) => ({
-			header: () => <Header navigation={navigation} title="Detalhes" />,
+			header: props => <Header navigation={navigation} title="Detalhes" headerProps={props} />,
 		})
 	},
 	ViewPreaching: {
 		screen: ViewPreaching,
 		navigationOptions: ({ navigation }) => ({
-			header: () => <Header navigation={navigation} title="Palavra da Cap" />,
+			header: props => <Header navigation={navigation} title="Palavra da Cap" headerProps={props} />,
 		})
 	}
 })
 
 const TabBottom = createMaterialBottomTabNavigator(
 	{
-		Profile: { 
+		Perfil: { 
 			screen: ProfileStack,
 			navigationOptions: () => ({
 				tabBarIcon: <Icon name="clipboard-account-outline" size={25} color="#fff" />
 			})
 		},
-		SearchCap: { 
+		Pesquisar: { 
 			screen: SearchCapStack,
 			navigationOptions: () => ({
 				tabBarIcon: <Icon name="map-search-outline" size={25} color="#fff" />
@@ -92,7 +92,7 @@ const TabBottom = createMaterialBottomTabNavigator(
 			})
 		},
 	}, {
-		initialRouteName: 'SearchCap',
+		initialRouteName: 'Pesquisar',
 		activeColor: '#fff',
 		inactiveColor: '#754822',
 		shifting: true,

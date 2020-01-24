@@ -291,7 +291,7 @@ export default function SearchCap() {
 					<TextLarge>{`Supervisor: ${dataCapSelected.supervisor}`}</TextLarge>
 				</LargeInput>
 				<IconsInput>
-					<TouchableOpacity onPress={() => this.goLocal(this.state.dataCapSelected.latitude, this.state.dataCapSelected.longitude)}>
+					<TouchableOpacity onPress={() => goLocal(dataCapSelected.latitude, dataCapSelected.longitude)}>
 						<Icon name="home-map-marker" color="#f68121" size={30} />
 					</TouchableOpacity>
 					<TouchableOpacity>

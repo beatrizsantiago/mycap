@@ -75,20 +75,23 @@ const TabBottom = createMaterialBottomTabNavigator(
 	{
 		Perfil: { 
 			screen: ProfileStack,
-			navigationOptions: () => ({
-				tabBarIcon: <Icon name="clipboard-account-outline" size={25} color="#fff" />
+			navigationOptions: (props) => ({
+				tabBarIcon: <Icon name="clipboard-account-outline" size={25} color="#fff" />,
+				tabBarVisible: props.navigation.state.index == 0 ? true : false
 			})
 		},
 		Pesquisar: { 
 			screen: SearchCapStack,
-			navigationOptions: () => ({
-				tabBarIcon: <Icon name="map-search-outline" size={25} color="#fff" />
+			navigationOptions: (props) => ({
+				tabBarIcon: <Icon name="map-search-outline" size={25} color="#fff" />,
+				tabBarVisible: props.navigation.state.index == 0 ? true : false
 			})
 		},
 		Feedback: { 
 			screen: FeedbackStack,
-			navigationOptions: () => ({
-				tabBarIcon: <Icon name="ballot-recount-outline" size={25} color="#fff" />
+			navigationOptions: (props) => ({
+				tabBarIcon: <Icon name="ballot-recount-outline" size={25} color="#fff" />,
+				tabBarVisible: props.navigation.state.index == 0 ? true : false
 			})
 		},
 	}, {
